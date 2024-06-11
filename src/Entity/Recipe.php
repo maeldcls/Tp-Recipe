@@ -42,7 +42,7 @@ class Recipe
 
     public function __construct()
     {
-        $this->ingredient = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
         $this->feedBacks = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
     }

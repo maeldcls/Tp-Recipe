@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use App\Service\FetchRecipeService;
 
 #[AsCommand(
     name: 'app:parse-recipes',
@@ -16,9 +17,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ParseRecipesCommand extends Command
 {
-    public function __construct()
+    private $fetchRecipeService;
+
+    public function __construct(FetchRecipeService $fetchRecipeService)
     {
         parent::__construct();
+        $this->fetchRecipeService = $fetchRecipeService;
     }
 
     protected function configure(): void
@@ -29,21 +33,27 @@ class ParseRecipesCommand extends Command
         ;
     }
 
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
-
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+        try {
+            $this->fetchRecipeService->jsonToDatabase(dirname(__DIR__,2),'/public/utils/recipes.json');
+            $io->success('Recipes have been successfully imported.');
+            
+        } catch (\Exception $e) {
+            $io->error('Error importing recipes: ' . $e->getMessage());
+            return Command::FAILURE;
         }
-
-        if ($input->getOption('option1')) {
-            // ...
-        }
-
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
-
         return Command::SUCCESS;
+        // if (!empty($recipesArray)) {
+        //     $io->writeln('Found '.count($recipesArray).' recipes');
+        //     $io->listing($recipesArray);
+        //     $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        //     return Command::SUCCESS;
+        // } else {
+        //     $io->error('No recipes found');
+        //     return Command::FAILURE;
+        // }
     }
 }
