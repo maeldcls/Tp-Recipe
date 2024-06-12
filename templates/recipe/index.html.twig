@@ -15,4 +15,8 @@
     <p>Preparation Time : {{ recipe.preparationTime }} </p>
     <p>Serves : {{ recipe.serves }} </p>
 
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+    
 {% endblock %}

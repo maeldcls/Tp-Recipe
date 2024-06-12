@@ -14,7 +14,7 @@ class FeedBack
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $comments = null;
+    private ?string $comment = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $rate = null;
@@ -32,14 +32,14 @@ class FeedBack
         return $this->id;
     }
 
-    public function getComments(): ?string
+    public function getComment(): ?string
     {
-        return $this->comments;
+        return $this->comment;
     }
 
-    public function setComments(?string $comments): static
+    public function setComment(?string $comment): static
     {
-        $this->comments = $comments;
+        $this->comment = $comment;
 
         return $this;
     }
