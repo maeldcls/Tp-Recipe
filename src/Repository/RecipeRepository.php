@@ -40,4 +40,18 @@ class RecipeRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findOneRand()
+{
+    $count = $this->createQueryBuilder('r')
+        ->select('count(r.id)')
+        ->getQuery()
+        ->getSingleScalarResult();
+
+    return $this->createQueryBuilder('r')
+        ->setFirstResult(rand(0, $count - 1))
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
 }

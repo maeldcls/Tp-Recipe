@@ -47,6 +47,23 @@ class Recipe
         $this->ingredients = new ArrayCollection();
     }
 
+    public function __toArray(): array
+    {
+        $ingredients = $this->getIngredients()->map(function (Ingredient $ingredient) {
+            return $ingredient->getName();
+        })->toArray();
+
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'preparationTime' => $this->getPreparationTime(),
+            'cookingTime' => $this->getCookingTime(),
+            'serves' => $this->getServes(),
+            'ingredients' => $ingredients,
+
+        ];
+    }
+
     public function getId(): ?int
     {
         return $this->id;

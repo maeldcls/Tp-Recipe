@@ -12,12 +12,13 @@ class RecipeController extends AbstractController
     #[Route('/recipe', name: 'app_recipe')]
     public function index(FetchRecipeService $fetchrecipe): Response
     {
-        // $fetchrecipe->getRandomRecipe();
-
-        //var_dump($fetchrecipe->getRandomRecipe()->getIngredients());
-
+      
+        
+        $recipe = $fetchrecipe->getRandomRecipe();
+        // dd($recipe);
         return $this->render('recipe/index.html.twig', [
             'controller_name' => 'RecipeController',
+            'recipe' => $recipe,
         ]);
     }
 }

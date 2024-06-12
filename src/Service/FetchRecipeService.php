@@ -17,43 +17,6 @@ class FetchRecipeService
         $this->entityManager = $entityManager;
     }
 
-    // public function getRandomRecipe()
-    // {
-    //     $recipes = $this->parseRecipesCommand->parseRecipes();
-    //     if (!empty($recipes)) {
-    //         $randomIndex = array_rand($recipes);
-
-    //         return $this->setRecipes($recipes[$randomIndex]);
-    //     }
-
-    //     return null;
-    // }
-
-    // public function setRecipes($recipe)
-    // {
-    //     $newRecipe = new Recipe();
-    //     $newRecipe->setName($recipe['name']);
-
-    //     $ingredients = explode(', ', $recipe['ingredients']);
-        
-    //     foreach($ingredients as $ingredient){
-           
-    //        $newRecipe->addIngredient($this->setIngredient($ingredient));
-    //     }
-    //     $newRecipe->setPreparationTime($recipe['preparationTime']);
-    //     $newRecipe->setCookingTime($recipe['cookingTime']);
-    //     $newRecipe->setServes($recipe['serves']);
-
-    //     return $newRecipe;
-    // }
-
-    // public function setIngredient($ingredient)
-    // {
-    //     $newIngredient = new Ingredient();
-    //     $newIngredient->setName($ingredient);
-
-    //     return $newIngredient;
-    // }
 
     public function jsonToDatabase($projetDir, $path)
 {
@@ -99,6 +62,11 @@ class FetchRecipeService
     }
 }
 
+    public function getRandomRecipe()
+    {
+        $recipe = $this->entityManager->getRepository(Recipe::class)->findOneRand();
+        return $recipe->__toArray();
+    }
     
 
 }
