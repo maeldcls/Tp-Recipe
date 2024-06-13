@@ -49,4 +49,10 @@ class FeedBackService
         }
     }
 
+    public function getFeedBackByUser()
+    {
+        $user = $this->security->getUser();
+        $feedBackRepository = $this->entityManager->getRepository(FeedBack::class);
+        return $feedBackRepository->findFeedBackByUser($user);
+    }
 }

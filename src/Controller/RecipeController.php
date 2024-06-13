@@ -10,16 +10,22 @@ use App\Service\FetchRecipeService;
 use App\Service\FeedBackService;
 use App\Form\FeedBackType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class RecipeController extends AbstractController
 {
     #[Route('/recipe', name: 'app_recipe')]
-    public function index(FetchRecipeService $fetchrecipe, FeedBackService $feedBackService,Request $request): Response
+    public function index(FetchRecipeService $fetchrecipe, FeedBackService $feedBackService,Request $request, SessionInterface $session): Response
     {
       
-        
-        $recipe = $fetchrecipe->getRandomRecipe();
-
+        if ($session->has('recipeId')) {
+            $recipeId = $session->get('recipeId');
+            $recipe = $fetchrecipe->getRecipeById($recipeId);
+        }
+        else{
+            $recipe = $fetchrecipe->getRandomRecipe();
+            $session->set('recipeId', $recipe['id']);
+        }
  
         $form = $this->createForm(FeedBackType::class, null);
 
@@ -30,11 +36,8 @@ class RecipeController extends AbstractController
             $data['recipe'] = $recipe;
             $feedBackService->writeComment($data);
 
-            return $this->redirectToRoute('app_recipe');
+            return $this->redirectToRoute('app_feedback');
         }
-
-       
-
 
         return $this->render('recipe/index.html.twig', [
             'controller_name' => 'RecipeController',

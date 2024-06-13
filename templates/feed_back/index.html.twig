@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FeedBackController!{% endblock %}
+
+{% block body %}
+{% for feedback in feedbacks %}
+<div>
+    <h2>{{ feedback.recipe.name }}</h2>
+    <p>{{ feedback.comment }}</p>
+    <p>{{ feedback.rate }}</p>
+    <hr>
+</div>
+{% endfor %}
+{% endblock %}

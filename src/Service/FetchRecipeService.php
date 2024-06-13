@@ -68,5 +68,10 @@ class FetchRecipeService
         return $recipe->__toArray();
     }
     
+    public function getRecipeById($id)
+    {
+        $recipe = $this->entityManager->getRepository(Recipe::class)->find($id);
+        return $recipe->__toArray();
+    }
 
 }

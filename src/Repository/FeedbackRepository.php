@@ -41,4 +41,13 @@ class FeedbackRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+public function findFeedBackByUser($user)
+{
+    return $this->createQueryBuilder('f')
+        ->andWhere('f.username = :user')
+        ->setParameter('user', $user)
+        ->getQuery()
+        ->getResult();
+}
+
 }
